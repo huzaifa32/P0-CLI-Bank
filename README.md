@@ -1,4 +1,4 @@
-# BankCLI
+# The CLI Bank
 
 A console-based banking application built with Java and PostgreSQL, demonstrating a layered architecture (API → Service → Persistence → Domain) with the DAO design pattern.
 
