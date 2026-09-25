@@ -1,11 +1,9 @@
 package com.bankcli.api;
 
-
+import java.util.*;
 import com.bankcli.domain.Account;
 import com.bankcli.domain.Transaction;
 import com.bankcli.service.BankService;
-
-import java.util.Scanner;
 
 public class BankCLI {
     private final BankService service;
@@ -17,8 +15,12 @@ public class BankCLI {
     }
 
     public void run() {
-            System.out.println("Welcome to Bank CLI");
-            String loginRegister = readString("1. Login \n2.Register \nChoose an option. ");
+            
+
+            System.out.println("-----------------------");
+            System.out.println("Welcome to The CLI Bank");
+            System.out.println("-----------------------");
+            String loginRegister = readString("1. Login \n2. Register \n3. Exit \nChoose an option. ");
             switch (loginRegister) {
                 case "1":
 
@@ -39,10 +41,17 @@ public class BankCLI {
                     Register();
                     System.out.println("returning to menu. ");
                     run();
+                    break;
+                case "3":
+                    System.out.println("exiting");
+                    break;
 
             
                 default:
+                    System.out.println("Invalid option. ");
+                    run();
                     break;
+                    
             }
 
     
@@ -89,7 +98,8 @@ public class BankCLI {
             System.out.println("2. Deposit");
             System.out.println("3. Withdraw");
             System.out.println("4. Transfer");
-            System.out.println("5. Logout / Exit");
+            System.out.println("5. View History");
+            System.out.println("6. Logout / Exit");
             
             int choice = readInt("Choose an option: ");
 
@@ -98,7 +108,8 @@ public class BankCLI {
                 case 2 -> deposit();
                 case 3 -> withdraw();
                 case 4 -> transfer();
-                case 5 -> running = false;
+                case 5 -> showHistory();
+                case 6 -> running = false;
                 default -> System.out.println("Invalid option, try again.");
             }
         }
@@ -108,6 +119,14 @@ public class BankCLI {
         Account refreshed = service.getAccount(currentAccount.getAccountId());
         System.out.println("Current balance: $" + refreshed.getBalance());
     }
+
+    private void showHistory() {
+    List<Transaction> transactions = service.getTransactionHistoryById(currentAccount.getAccountId());
+    for (Transaction entry : transactions) {
+        System.out.printf("[#%d] %s: $%.2f (%s)%n",
+            entry.getTransactionId(), entry.getType(), entry.getAmount(), entry.getTimestamp());
+    }
+}
 
     private void deposit() {
         double amount = readDouble("Enter Amount: ");

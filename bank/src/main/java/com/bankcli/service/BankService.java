@@ -2,7 +2,10 @@ package com.bankcli.service;
 
 
 
+import java.util.List;
+
 import com.bankcli.domain.Account;
+import com.bankcli.domain.Transaction;
 
 public interface BankService {
     Account openAccount(String pin, Double initialBalance);
@@ -14,5 +17,8 @@ public interface BankService {
     
     Account getAccount(int accountId);
     Double getBalance(int accountId);
+
+    List<Transaction> getTransactionHistoryById(int accountId);
+    
 
 }
